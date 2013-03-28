@@ -2,18 +2,13 @@
 
 The kernel will find other path for booting.
 
-Such as:
-folder boot branch
-/cache                        as system partition (Giving up /realdata/media/2nd/system because of some root problems)
-/realdata/media/2nd/data      as data partition
-/realdata/media/2nd/cache     as cache partition
+image folder mixture boot branch
+/rdata/media/2nd/system.img    as system partition
+/rdata/media/2nd/data      as data partition
+/rdata/media/2nd/cache     as cache partition
 
-or:
-image boot branch
-/realdata/media/rom/system.img    as system partition
-/realdata/media/rom/data.img      as data partition
-/realdata/media/rom/cache.img     as cache partition
-
+rdata is the real data partition in Galaxy Nexus.
+/dev/block/platform/omap/omap_hsmmc.0/by-name/userdata
 
 Just use pack_boot.sh to repack the kernel.
 
