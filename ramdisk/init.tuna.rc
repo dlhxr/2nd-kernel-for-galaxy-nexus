@@ -70,6 +70,7 @@ on fs
 	mkdir /rdata/media/2nd/cache 0775 system cache
 	exec /sbin/busybox mount --bind /rdata/media/2nd/data /data
 	exec /sbin/busybox mount --bind /rdata/media/2nd/cache /cache
+	setprop ro.crypto.fuse_sdcard true
 
 # change permissions for mtd device
 	chmod 0660 /dev/mtd/mtd0
