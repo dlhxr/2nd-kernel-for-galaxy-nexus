@@ -62,7 +62,11 @@ on boot
 
 on fs
 	mkdir /factory 0775 radio radio
+	mkdir /rdata 0771 system system
 	mount_all /fstab.tuna
+	exec /sbin/busybox mount -t ext4 -o ro /rdata/media/rom/system.img /system
+	exec /sbin/busybox mount -t ext4 -o noatime,nosuid,nodev,nomblk_io_submit,errors=panic,rw /rdata/media/rom/data.img /data
+	exec /sbin/busybox mount -t ext4 -o noatime,nosuid,nodev,nomblk_io_submit,errors=panic,rw /rdata/media/rom/cache.img /cache
 	setprop ro.crypto.fuse_sdcard true
 
 # change permissions for mtd device
@@ -179,7 +183,7 @@ service smc_pa_wvdrm /system/bin/smc_pa_ctrl \
         oneshot
 
 # virtual sdcard daemon running as media_rw (1023)
-service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
+service sdcard /system/bin/sdcard /rdata/media /mnt/shell/emulated 1023 1023
     class late_start
 
 service p2p_supplicant /system/bin/wpa_supplicant \
