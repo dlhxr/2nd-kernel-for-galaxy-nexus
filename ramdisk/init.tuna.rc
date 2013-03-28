@@ -62,8 +62,14 @@ on boot
 
 on fs
 	mkdir /factory 0775 radio radio
+	mkdir /rdata 0771 system system
 	mount_all /fstab.tuna
-	setprop ro.crypto.fuse_sdcard true
+	exec /sbin/busybox mount -t ext4 -o ro /rdata/media/2nd/system.img /system
+	mkdir /rdata/media/2nd
+	mkdir /rdata/media/2nd/data 0775 system system
+	mkdir /rdata/media/2nd/cache 0775 system cache
+	exec /sbin/busybox mount --bind /rdata/media/2nd/data /data
+	exec /sbin/busybox mount --bind /rdata/media/2nd/cache /cache
 
 # change permissions for mtd device
 	chmod 0660 /dev/mtd/mtd0
@@ -179,7 +185,7 @@ service smc_pa_wvdrm /system/bin/smc_pa_ctrl \
         oneshot
 
 # virtual sdcard daemon running as media_rw (1023)
-service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
+service sdcard /system/bin/sdcard /rdata/media /mnt/shell/emulated 1023 1023
     class late_start
 
 service p2p_supplicant /system/bin/wpa_supplicant \
